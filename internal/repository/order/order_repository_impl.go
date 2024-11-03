@@ -2,19 +2,25 @@ package order
 
 import (
 	"context"
-	"database/sql"
 	"evermosTest/internal/entity"
+	"gorm.io/gorm"
 )
 
 type orderRepositoryImpl struct {
-	db *sql.DB
+	db *gorm.DB
 }
 
 func (o *orderRepositoryImpl) Save(ctx context.Context, newOrder *entity.Order) (*entity.Order, error) {
-	//TODO implement me
-	panic("implement me")
+	result := o.db.WithContext(ctx).Create(&newOrder)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return newOrder, nil
+
 }
 
-func NewRepository(db *sql.DB) Repository {
+func NewRepository(db *gorm.DB) Repository {
 	return &orderRepositoryImpl{db: db}
 }

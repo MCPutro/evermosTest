@@ -2,39 +2,71 @@ package product
 
 import (
 	"context"
-	"database/sql"
 	"evermosTest/internal/entity"
+	"gorm.io/gorm"
 )
 
 type productRepositoryImpl struct {
-	db *sql.DB
+	db *gorm.DB
 }
 
 func (p *productRepositoryImpl) Save(ctx context.Context, newProduct *entity.Product) (*entity.Product, error) {
-	//TODO implement me
-	panic("implement me")
+	err := p.db.WithContext(ctx).Create(&newProduct).Error
+	if err != nil {
+		return nil, err
+	}
+	return newProduct, err
 }
 
 func (p *productRepositoryImpl) FindById(ctx context.Context, ID int) (*entity.Product, error) {
-	//TODO implement me
-	panic("implement me")
+	var product entity.Product
+
+	result := p.db.WithContext(ctx).First(&product, "id = ?", ID)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &product, nil
 }
 
-func (p *productRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) ([]*entity.Product, error) {
-	//TODO implement me
-	panic("implement me")
+func (p *productRepositoryImpl) FindAll(ctx context.Context) ([]*entity.Product, error) {
+	var products []*entity.Product
+	result := p.db.WithContext(ctx).Find(&products)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	if result.RowsAffected > 0 {
+		return products, nil
+	}
+	// fmt.Println("Found ", result.RowsAffected, "(s) data")
+
+	return nil, nil
 }
 
 func (p *productRepositoryImpl) Update(ctx context.Context, newProduct *entity.Product) (*entity.Product, error) {
-	//TODO implement me
-	panic("implement me")
+	result := p.db.WithContext(ctx).Save(&newProduct)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return newProduct, nil
 }
 
 func (p *productRepositoryImpl) Remove(ctx context.Context, ID int) error {
-	//TODO implement me
-	panic("implement me")
+
+	//find product
+	var product entity.Product
+	result := p.db.WithContext(ctx).First(&product, "id = ?", ID)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	//delete product
+	return p.db.Delete(&product).Error
 }
 
-func NewRepository(db *sql.DB) Repository {
+func NewRepository(db *gorm.DB) Repository {
 	return &productRepositoryImpl{db: db}
 }
