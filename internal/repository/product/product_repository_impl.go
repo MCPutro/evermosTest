@@ -29,7 +29,7 @@ func (p *productRepositoryImpl) FindById(ctx context.Context, ID int) (*entity.P
 	return &product, nil
 }
 
-func (p *productRepositoryImpl) FindAll(ctx context.Context) ([]*entity.Product, error) {
+func (p *productRepositoryImpl) FindAll(ctx context.Context) (entity.ProductList, error) {
 	var products []*entity.Product
 	result := p.db.WithContext(ctx).Find(&products)
 

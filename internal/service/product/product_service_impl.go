@@ -18,6 +18,17 @@ type productServiceImpl struct {
 	mu      sync.Mutex
 }
 
+func (p *productServiceImpl) GetAllProducts(ctx context.Context) ([]*response.Product, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
+	products, err := p.product.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return products.ToResponseProductList(), nil
+}
+
 // Create for store new product to database
 func (p *productServiceImpl) Create(ctx context.Context, product *request.Product) (*response.Product, error) {
 	productSaved, err := p.product.Save(ctx, product.ToEntity())
@@ -108,7 +119,9 @@ func (p *productServiceImpl) Checkout(ctx context.Context, checkoutRequest *requ
 	}
 
 	// return response
-	return orderSaved.ToResponse(), nil
+	respMessage := orderSaved.ToResponse()
+	respMessage.ProductName = existingProduct.Name
+	return respMessage, nil
 }
 
 // NewService is a constructor function for creating product instances

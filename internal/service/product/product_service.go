@@ -7,6 +7,7 @@ import (
 )
 
 type Service interface {
+	GetAllProducts(ctx context.Context) ([]*response.Product, error)
 	Create(ctx context.Context, product *request.Product) (*response.Product, error)
 	PriceAndStockAdjustment(ctx context.Context, productId int, isDeduct bool, n int, newPrice int) (*response.Product, error)
 	Delete(ctx context.Context, productId int) error

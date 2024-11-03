@@ -23,3 +23,14 @@ func (p *Product) ToResponse() *response.Product {
 		Stock: p.Stock,
 	}
 }
+
+type ProductList []*Product
+
+func (pl *ProductList) ToResponseProductList() []*response.Product {
+	var tmp []*response.Product
+	for _, product := range *pl {
+		tmp = append(tmp, product.ToResponse())
+	}
+
+	return tmp
+}

@@ -8,7 +8,7 @@ import (
 type Repository interface {
 	Save(ctx context.Context, newProduct *entity.Product) (*entity.Product, error)
 	FindById(ctx context.Context, ID int) (*entity.Product, error)
-	FindAll(ctx context.Context) ([]*entity.Product, error)
+	FindAll(ctx context.Context) (entity.ProductList, error)
 	Update(ctx context.Context, newProduct *entity.Product) (*entity.Product, error)
 	Remove(ctx context.Context, ID int) error
 }
