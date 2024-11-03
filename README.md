@@ -8,3 +8,109 @@ Jumlah stock yang tersedia tidak sesuai dengan jumlah pembalian yang masuk, tapi
 
 Salah satu cara untuk menghindari race condition, memastikan jika ada proses pembelian yang sedang terjadi maka proses pembelian lain tidak bisa masuk sampai proses yang sebelumnya selesai.
 Di GoLang bisa menggunakan ```sync.mutex``` untuk memastikan tidak ada proses masuk sebelum proses sebelumnya selesai.
+
+Pada projek ini ```sync.mutex``` di tambahkan pada service product
+```go
+type productServiceImpl struct {
+	product product.Repository
+	order   order.Repository
+	mu      sync.Mutex  // race condition handling
+}
+
+// Checkout for deduct product stock and create order
+func (p *productServiceImpl) Checkout(ctx context.Context, checkoutRequest *request.Checkout) (*response.Order, error) {
+	p.mu.Lock()         // lock transaction
+	defer p.mu.Unlock() // unlock transaction
+
+	// find the product details
+	existingProduct, err := p.product.FindById(ctx, checkoutRequest.ProductId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find product id %d. %w", checkoutRequest.ProductId, err)
+	}
+
+	// Check available stock and return an error if available stock is less than the requested quantity
+	if existingProduct.Stock < checkoutRequest.Quantity {
+		return nil, fmt.Errorf("product stock is lower than quantity")
+	}
+
+	// Simulating processing time
+	time.Sleep(200 * time.Millisecond)
+
+	// deduct stock
+	existingProduct.Stock -= checkoutRequest.Quantity
+
+	// store new available stock in the database after deduction
+	_, err = p.product.Update(ctx, existingProduct)
+	if err != nil {
+		return nil, fmt.Errorf("failed to Deduct product %d. %w", checkoutRequest.ProductId, err)
+	}
+
+	// create new order
+	// count total price
+	totalPrice := existingProduct.Price * checkoutRequest.Quantity
+	// store new order in the database
+	orderSaved, err := p.order.Save(ctx, &entity.Order{ProductId: checkoutRequest.ProductId, Quantity: checkoutRequest.Quantity, TotalPrice: totalPrice})
+	if err != nil {
+		return nil, fmt.Errorf("failed to save order. %w", err)
+	}
+
+	// return response
+	respMessage := orderSaved.ToResponse()
+	respMessage.ProductName = existingProduct.Name
+	return respMessage, nil
+}
+
+```
+
+## Teknologi yang digunakan pada Proyek ini adalah :
+- MySQL : SQL Database Server
+- GoLang : Bahasa Pemrograman Backend (IDE) versi 1.21.3
+- Docker : Container
+- Git : Sistem Pengontrol Versi (Kode)
+- Postman : Dokumentasi API
+
+## Menjalankan Proyek
+### 1. Clone proyek dari Github
+```
+$ mkdir go-project
+$ cd go-project
+$ git clone https://github.com/MCPutro/evermosTest.git
+```
+
+tunggu hingga porses selesai, dan akan muncul seperti berikut :
+```
+Cloning into 'evermosTest'...
+remote: Enumerating objects: 261, done.
+remote: Counting objects: 100% (261/261), done.
+Receiving objects: 100% (261/261), 53.14 KiB | 1.18 MiB/s, done.
+Resolving deltas:  22% (27/122)0% (172/172), done.
+Resolving deltas:  27% (33/122)reused 208 (delta 78), pack-reused 0
+Resolving deltas: 100% (122/122), done.
+```
+lalu masuk kedalam folder evermosTest:
+```shell
+cd evermosTest
+```
+### 2. Jalankan proyek ini dengan docker compose
+pastikan docker sudah berjalan, di komputer atau laptop yang digunakan. Jika sudah, masukan perintah berikut:
+```shell
+docker compose up -d
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

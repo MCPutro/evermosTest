@@ -18,6 +18,49 @@ type productServiceImpl struct {
 	mu      sync.Mutex
 }
 
+// Checkout for deduct product stock and create order
+func (p *productServiceImpl) Checkout(ctx context.Context, checkoutRequest *request.Checkout) (*response.Order, error) {
+	p.mu.Lock()         // lock transaction
+	defer p.mu.Unlock() // unlock
+
+	// find the product details
+	existingProduct, err := p.product.FindById(ctx, checkoutRequest.ProductId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find product id %d. %w", checkoutRequest.ProductId, err)
+	}
+
+	// Check available stock and return an error if available stock is less than the requested quantity
+	if existingProduct.Stock < checkoutRequest.Quantity {
+		return nil, fmt.Errorf("product stock is lower than quantity")
+	}
+
+	// Simulating processing time
+	time.Sleep(200 * time.Millisecond)
+
+	// deduct stock
+	existingProduct.Stock -= checkoutRequest.Quantity
+
+	// store new available stock in the database after deduction
+	_, err = p.product.Update(ctx, existingProduct)
+	if err != nil {
+		return nil, fmt.Errorf("failed to Deduct product %d. %w", checkoutRequest.ProductId, err)
+	}
+
+	// create new order
+	// count total price
+	totalPrice := existingProduct.Price * checkoutRequest.Quantity
+	// store new order in the database
+	orderSaved, err := p.order.Save(ctx, &entity.Order{ProductId: checkoutRequest.ProductId, Quantity: checkoutRequest.Quantity, TotalPrice: totalPrice})
+	if err != nil {
+		return nil, fmt.Errorf("failed to save order. %w", err)
+	}
+
+	// return response
+	respMessage := orderSaved.ToResponse()
+	respMessage.ProductName = existingProduct.Name
+	return respMessage, nil
+}
+
 func (p *productServiceImpl) GetAllProducts(ctx context.Context) ([]*response.Product, error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
@@ -79,49 +122,6 @@ func (p *productServiceImpl) Delete(ctx context.Context, productId int) error {
 	defer p.mu.Unlock() // unlock
 
 	return p.product.Remove(ctx, productId)
-}
-
-// Checkout for deduct product stock and create order
-func (p *productServiceImpl) Checkout(ctx context.Context, checkoutRequest *request.Checkout) (*response.Order, error) {
-	p.mu.Lock()         // lock transaction
-	defer p.mu.Unlock() // unlock
-
-	// find the product details
-	existingProduct, err := p.product.FindById(ctx, checkoutRequest.ProductId)
-	if err != nil {
-		return nil, fmt.Errorf("failed to find product id %d. %w", checkoutRequest.ProductId, err)
-	}
-
-	// Check available stock and return an error if available stock is less than the requested quantity
-	if existingProduct.Stock < checkoutRequest.Quantity {
-		return nil, fmt.Errorf("product stock is lower than quantity")
-	}
-
-	// Simulating processing time
-	time.Sleep(200 * time.Millisecond)
-
-	// deduct stock
-	existingProduct.Stock -= checkoutRequest.Quantity
-
-	// store new available stock in the database after deduction
-	_, err = p.product.Update(ctx, existingProduct)
-	if err != nil {
-		return nil, fmt.Errorf("failed to Deduct product %d. %w", checkoutRequest.ProductId, err)
-	}
-
-	// create new order
-	// count total price
-	totalPrice := existingProduct.Price * checkoutRequest.Quantity
-	// store new order in the database
-	orderSaved, err := p.order.Save(ctx, &entity.Order{ProductId: checkoutRequest.ProductId, Quantity: checkoutRequest.Quantity, TotalPrice: totalPrice})
-	if err != nil {
-		return nil, fmt.Errorf("failed to save order. %w", err)
-	}
-
-	// return response
-	respMessage := orderSaved.ToResponse()
-	respMessage.ProductName = existingProduct.Name
-	return respMessage, nil
 }
 
 // NewService is a constructor function for creating product instances
