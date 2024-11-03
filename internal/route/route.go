@@ -8,12 +8,17 @@ import (
 func NewRouter(handler http.Handler) *fiber.App {
 	router := fiber.New()
 
-	router.Get("/ping", func(c *fiber.Ctx) error {
-		return c.SendString("pong")
+	r := router.Group("/")
+	r.Get("/", func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusOK).SendString("OK")
 	})
-	router.Post("/product", handler.CreateNewProduct)
+
+	apiProduct := r.Group("/product")
+	apiProduct.Post("/add", handler.CreateNewProduct)
+	apiProduct.Get("/list", handler.GetProductList)
+	apiProduct.Delete("/:productId", handler.DeleteProduct)
+
 	router.Post("/checkout", handler.Checkout)
-	router.Get("/product/list", handler.GetProductList)
 
 	return router
 }

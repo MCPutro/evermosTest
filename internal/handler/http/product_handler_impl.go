@@ -1,10 +1,13 @@
 package http
 
 import (
+	"errors"
 	"evermosTest/internal/handler/request"
 	"evermosTest/internal/service/product"
 	"evermosTest/internal/utils"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"strconv"
 )
 
 type handlerImpl struct {
@@ -19,7 +22,7 @@ func (h *handlerImpl) GetProductList(c *fiber.Ctx) error {
 	}
 
 	//success message
-	return utils.WriteToResponseBody(c, err, fiber.StatusOK, "Success", nil, len(products))
+	return utils.WriteToResponseBody(c, err, fiber.StatusOK, "Success", products, len(products))
 }
 
 func (h *handlerImpl) CreateNewProduct(c *fiber.Ctx) error {
@@ -58,6 +61,25 @@ func (h *handlerImpl) Checkout(c *fiber.Ctx) error {
 
 	//success message
 	return utils.WriteToResponseBody(c, err, fiber.StatusCreated, "Success", order, 1)
+}
+
+func (h *handlerImpl) DeleteProduct(c *fiber.Ctx) error {
+	sProductId := c.Params("productId", "-1")
+	productId, err := strconv.Atoi(sProductId)
+	if err != nil {
+		return utils.WriteToResponseBody(c, err, fiber.StatusBadRequest, fmt.Sprintf("product id %s is not valid.", sProductId), nil, 0)
+	}
+
+	err = h.product.Delete(c.UserContext(), productId)
+	if err != nil {
+		if errors.Is(err, fiber.ErrNotFound) {
+			return utils.WriteToResponseBody(c, err, fiber.StatusNotFound, "failed to delete product. "+err.Error(), nil, 0)
+		}
+		return utils.WriteToResponseBody(c, err, fiber.StatusInternalServerError, "failed to delete user. "+err.Error(), nil, 0)
+	}
+
+	//success message
+	return utils.WriteToResponseBody(c, err, fiber.StatusOK, "success", nil, 0)
 }
 
 func NewProductHandler(product product.Service) Handler {
