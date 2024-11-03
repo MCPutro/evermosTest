@@ -11,14 +11,14 @@ import (
 	"time"
 )
 
-func NewMySQL() (*gorm.DB, error) {
+func NewMySQL(cfg config.Config) (*gorm.DB, error) {
 	var db *gorm.DB
 	var err error
 	maxRetry := 10
 
 	for i := 0; i < maxRetry; i++ {
 		dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-			config.DB_USERNAME, config.DB_PASSWORD, config.DB_HOST, config.DB_PORT, config.DB_NAME)
+			cfg.GetDbUsername(), cfg.GetDbPassword(), cfg.GetDbHost(), cfg.GetDbPort(), cfg.GetDbName())
 		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info), //mengeprint query yg digunakan
 		})
