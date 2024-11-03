@@ -1,4 +1,4 @@
-package service
+package product
 
 import (
 	"context"
@@ -19,8 +19,8 @@ type productServiceImpl struct {
 }
 
 // Create for store new product to database
-func (p *productServiceImpl) Create(ctx context.Context, product *entity.Product) (*response.Product, error) {
-	productSaved, err := p.product.Save(ctx, product)
+func (p *productServiceImpl) Create(ctx context.Context, product *request.Product) (*response.Product, error) {
+	productSaved, err := p.product.Save(ctx, product.ToEntity())
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +111,7 @@ func (p *productServiceImpl) Checkout(ctx context.Context, checkoutRequest *requ
 	return orderSaved.ToResponse(), nil
 }
 
-// NewProductService is a constructor function
-func NewProductService(product product.Repository, order order.Repository) ProductService {
+// NewService is a constructor function for creating product instances
+func NewService(product product.Repository, order order.Repository) Service {
 	return &productServiceImpl{product: product, order: order}
 }
