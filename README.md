@@ -116,7 +116,7 @@ untuk melakukan testing terhadap Rest API yang tersedia bisa menggunakan Postman
 >5. Jika berhasil, akan ada Ikon centang hijau pada daftar Database di sebelah kiri.
 
 - ### Postman
-pada proyek ini juga disematkan [Collection Postman (Evermos.postman_collection.json)](https://github.com/MCPutro/golang-docker/blob/master/GolangDocker.postman_collection.json) yang dapat anda import kepostman untuk mencoba API.
+pada proyek ini juga disematkan [Collection Postman (Evermos.postman_collection.json)](https://github.com/MCPutro/evermosTest/blob/master/Evermos.postman_collection.json) yang dapat anda import kepostman untuk mencoba API.
 #### Test your API using the Collection Runner
 - Setelah import, pilih Collections yang ada di sidebar dan pilih/klik collection atau folder yang akan di test.
 - Klik tombol Run, ada di pojok kanan atas
