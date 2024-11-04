@@ -14,9 +14,11 @@ func NewRouter(handler http.Handler) *fiber.App {
 	})
 
 	apiProduct := r.Group("/product")
-	apiProduct.Post("/add", handler.CreateNewProduct)
-	apiProduct.Get("/list", handler.GetProductList)
-	apiProduct.Delete("/:productId", handler.DeleteProduct)
+	apiProduct.Post("/add", handler.CreateNew)
+	apiProduct.Get("/list", handler.GetList)
+	apiProduct.Delete("/:productId", handler.Delete)
+	apiProduct.Post("/stockIn", handler.StockIn)
+	apiProduct.Post("/price", handler.PriceAdjust)
 
 	router.Post("/checkout", handler.Checkout)
 

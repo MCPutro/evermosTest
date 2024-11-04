@@ -92,20 +92,26 @@ func (p *productServiceImpl) PriceAndStockAdjustment(ctx context.Context, produc
 		return nil, err
 	}
 
-	// update stock
-	if isDeduct {
-		// Check if the deduction is less than the existing stock. If the deduction is greater than current stock, return an error.
-		if (existingProduct.Stock - n) >= 0 {
-			existingProduct.Stock -= n
+	// handling when case update price, set -1 to no update product stock
+	if n > 0 {
+		// update stock
+		if isDeduct {
+			// Check if the deduction is less than the existing stock. If the deduction is greater than current stock, return an error.
+			if (existingProduct.Stock - n) >= 0 {
+				existingProduct.Stock -= n
+			} else {
+				return nil, fmt.Errorf("product stock out of range. stock cannot be negative")
+			}
 		} else {
-			return nil, fmt.Errorf("product stock out of range. stock cannot be negative")
+			existingProduct.Stock += n
 		}
-	} else {
-		existingProduct.Stock += n
 	}
 
+	// handling when update product stock, set -1 to no update product price
 	// update product price
-	existingProduct.Price = newPrice
+	if newPrice > 0 {
+		existingProduct.Price = newPrice
+	}
 
 	// store new product details in the database
 	updated, err := p.product.Update(ctx, existingProduct)
