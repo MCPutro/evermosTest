@@ -7,14 +7,15 @@ import (
 )
 
 type Order struct {
-	Id           int            `gorm:"primary_key;autoIncrement"`
-	ProductId    int            `gorm:"column:product_id"`
-	Quantity     int            `gorm:"column:quantity"`
-	TotalPrice   int            `gorm:"column:total_price"`
-	UpdateTime   time.Time      `gorm:"column:update_time;autoCreateTime;autoUpdateTime;type:timestamp;default:NOW()"`
-	CreationTime time.Time      `gorm:"column:creation_time;autoCreateTime;<-:create;type:timestamp;default:NOW()"`
-	DeletedTime  gorm.DeletedAt `gorm:"column:delete_time"`
-	Product      Product        `gorm:"foreignKey:product_id;references:id"` // belongs to
+	Id         int       `gorm:"primary_key;autoIncrement"`
+	ProductId  int       `gorm:"column:product_id"`
+	Quantity   int       `gorm:"column:quantity"`
+	TotalPrice int       `gorm:"column:total_price"`
+	UpdateTime time.Time `gorm:"column:update_time;autoCreateTime;autoUpdateTime"`
+	//CreationTime time.Time      `gorm:"column:creation_time;autoCreateTime;type:timestamp;default:NOW()"`
+	CreatedAt   time.Time      `gorm:"column:creation_time;<-:create"`
+	DeletedTime gorm.DeletedAt `gorm:"column:delete_time"`
+	Product     Product        `gorm:"foreignKey:product_id;references:id"` // belongs to
 }
 
 func (o *Order) ToResponse() *response.Order {
@@ -24,7 +25,7 @@ func (o *Order) ToResponse() *response.Order {
 		ProductName: o.Product.Name,
 		Quantity:    o.Quantity,
 		TotalPrice:  o.TotalPrice,
-		OrderDate:   o.CreationTime.Format("2006-01-02 15:04:05"),
+		OrderDate:   o.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 }
 

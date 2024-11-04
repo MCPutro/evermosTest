@@ -13,7 +13,7 @@ services:
   backend:
     build:
       context: .
-      target: builder
+      target: app-release
     container_name: backend
     ports:
       - "${APP_PORT}:${APP_PORT}"
