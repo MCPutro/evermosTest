@@ -65,6 +65,7 @@ func (p *productServiceImpl) Checkout(ctx context.Context, checkoutRequest *requ
 
 ## Teknologi yang digunakan pada Proyek ini adalah :
 - MySQL : SQL Database Server
+- GORM : Tool for object-Relational Mapping Database
 - GoLang : Bahasa Pemrograman Backend (IDE) versi 1.21.3
 - Docker : Container
 - Git : Sistem Pengontrol Versi (Kode)
