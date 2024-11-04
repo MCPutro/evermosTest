@@ -1,0 +1,21 @@
+#version: "3.9"
+services:
+  db:
+    hostname: db-hub.docker
+    container_name: mysql-local-docker
+    image: mysql
+    env_file:
+      - .env
+    expose:
+      - "${DB_MYSQL_PORT}"
+    ports:
+      - "${DB_MYSQL_PORT}:${DB_MYSQL_PORT}"
+  backend:
+    build:
+      context: .
+      target: builder
+    container_name: backend
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      - db
