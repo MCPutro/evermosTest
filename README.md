@@ -1,5 +1,6 @@
 # Evermos Technical Test
 
+## TASK 1
 Pada kasus stok produk tidak sesuai ataupun stok produk yang negatif dikarenakan adanya lebih dari 1 proses atau request yang mengakses(manipulasi) data di saat yang bersamaan.
 Sehingga membuat data akhir tidak sesuai dengan yang diinginkan. Kondisi ini disebut dengan _**Race Condiotion**_.
 
@@ -130,3 +131,8 @@ pada proyek ini juga disematkan [Collection Postman (Evermos.postman_collection.
 $ docker compose down -v 
 ```
 
+## TASK 2
+untuk task 2 di ada di folder Task2. Untuk menjalankan function test bisa menggunakan script berikut
+```shell
+go test -v -run TestTask2$ evermosTest/Task2
+```
