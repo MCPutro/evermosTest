@@ -97,20 +97,36 @@ pastikan docker sudah berjalan, di komputer atau laptop yang digunakan. Jika sud
 docker compose up -d
 ```
 
+tunggu hingga project selesai di download dan akan muncul tampilan seperi berikut, coba tunggu beberapa menit :
+```
+....
+[+] Running 3/3
+ ✔ Network evermostest_default      Created                  0.9s 
+ ✔ Container mysql-local-docker     Started                  2.0s 
+ ✔ Container backend                Started                  3.4s 
+```
+
+### 3. Akses proyek
+untuk melakukan testing terhadap Rest API yang tersedia bisa menggunakan Postman dan untuk melihat/membuka database bisa menggunakan DBeaver.
+- ### DBeaver
+>1. Buka `DBeaver`.
+>2. Klik ikon `Connect to a Database` di Pojok-Kiri-Atas.
+>3. Pada Kategori `Popular`, pilih `MySQL` lalu klik Next.
+>4. Isikan Konfigurasi sesuai dengan File `.env` pada Proyek ini.
+>5. Jika berhasil, akan ada Ikon centang hijau pada daftar Database di sebelah kiri.
+
+- ### Postman
+pada proyek ini juga disematkan [Collection Postman (Evermos.postman_collection.json)](https://github.com/MCPutro/golang-docker/blob/master/GolangDocker.postman_collection.json) yang dapat anda import kepostman untuk mencoba API.
+#### Test your API using the Collection Runner
+- Setelah import, pilih Collections yang ada di sidebar dan pilih/klik collection atau folder yang akan di test.
+- Klik tombol Run, ada di pojok kanan atas
+- Beri cek list hanya pada Checkout
+- Pada Run configuration, field Iteration isi semisal 100
+- Klik Run Evermos
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### 4. Mematikan Proyek
+```shell
+$ docker compose down -v 
+```
 

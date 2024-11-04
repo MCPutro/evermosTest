@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"evermosTest/config"
 	"evermosTest/internal/database"
 	"evermosTest/internal/entity"
 	"evermosTest/internal/handler/http/order"
 	"evermosTest/internal/handler/http/product"
+	"evermosTest/internal/handler/request"
 	"evermosTest/internal/repository"
 	"evermosTest/internal/route"
 	"evermosTest/internal/service"
@@ -28,6 +30,13 @@ func main() {
 
 	productHandler := product.NewProductHandler(serviceManager.ProductService())
 	orderHandler := order.NewOrderHandler(serviceManager.OrderService())
+
+	//sample product
+	serviceManager.ProductService().Create(context.Background(), &request.Product{
+		Name:  "POP Ice",
+		Price: 100,
+		Stock: 15,
+	})
 
 	app := route.NewRouter(productHandler, orderHandler)
 
