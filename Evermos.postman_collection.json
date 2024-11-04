@@ -1,0 +1,814 @@
+{
+	"info": {
+		"_postman_id": "033f10fa-eb9d-408c-bba2-368375a3203b",
+		"name": "Evermos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27412179"
+	},
+	"item": [
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9999/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 03 Nov 2024 16:20:02 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		},
+		{
+			"name": "Add New Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_name\" : \"pop ice\",\r\n    \"price\" : 150,\r\n    \"stock\" : 12\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9999/product/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"product",
+						"add"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Example Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_name\" : \"pop ice\",\r\n    \"price\" : 150,\r\n    \"stock\" : 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/product/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"add"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 03 Nov 2024 16:21:48 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "138"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 201,\n    \"success\": true,\n    \"message\": \"Success\",\n    \"total_records\": 1,\n    \"data\": {\n        \"product_id\": 10,\n        \"product_name\": \"pop ice\",\n        \"price\": 150,\n        \"stock\": 12\n    }\n}"
+				},
+				{
+					"name": "Example Bad Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_name\" : \"pop ice\",\r\n    \"price\" : 150,\r\n    \"stock\" : 12.1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/product/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"add"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 03 Nov 2024 16:25:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "160"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"success\": false,\n    \"message\": \"invalid request body\",\n    \"error_detail\": \"json: cannot unmarshal number 12.1 into Go struct field Product.stock of type int\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Checkout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\" : 1,\r\n    \"quantity\" : 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9999/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"checkout"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Example Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\" : 5,\r\n    \"quantity\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/checkout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"checkout"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 03 Nov 2024 16:27:46 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "176"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 201,\n    \"success\": true,\n    \"message\": \"Success\",\n    \"total_records\": 1,\n    \"error_detail\": \"\",\n    \"data\": {\n        \"order_id\": 1080,\n        \"product_id\": 5,\n        \"product_name\": \"Bakso\",\n        \"quantity\": 1,\n        \"total_price\": 70\n    }\n}"
+				},
+				{
+					"name": "Example Failed",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\" : 5,\r\n    \"quantity\" : 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/checkout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"checkout"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 03 Nov 2024 16:28:00 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "131"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 500,\n    \"success\": false,\n    \"message\": \"product stock is lower than quantity\",\n    \"error_detail\": \"product stock is lower than quantity\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Find All Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/product/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"product",
+						"list"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Example Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9999/product/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"list"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 03 Nov 2024 16:21:12 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "595"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"success\": true,\n    \"message\": \"Success\",\n    \"total_records\": 8,\n    \"data\": [\n        {\n            \"product_id\": 2,\n            \"product_name\": \"Mie Ayam\",\n            \"price\": 2,\n            \"stock\": 1\n        },\n        {\n            \"product_id\": 3,\n            \"product_name\": \"Es Teh Tawar\",\n            \"price\": 50,\n            \"stock\": 2\n        },\n        {\n            \"product_id\": 4,\n            \"product_name\": \"Es Teh Manis\",\n            \"price\": 60,\n            \"stock\": 60\n        },\n        {\n            \"product_id\": 5,\n            \"product_name\": \"Bakso\",\n            \"price\": 70,\n            \"stock\": 27\n        },\n        {\n            \"product_id\": 6,\n            \"product_name\": \"Sate\",\n            \"price\": 10,\n            \"stock\": 100\n        },\n        {\n            \"product_id\": 7,\n            \"product_name\": \"Es Kelapa\",\n            \"price\": 200,\n            \"stock\": 12\n        },\n        {\n            \"product_id\": 8,\n            \"product_name\": \"cokocip\",\n            \"price\": 150,\n            \"stock\": 12\n        },\n        {\n            \"product_id\": 9,\n            \"product_name\": \"cokocip\",\n            \"price\": 150,\n            \"stock\": 12\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Stock In Positif",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\" : 2,\r\n    \"add_stock\" : 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9999/product/stockIn",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"product",
+						"stockIn"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Stock In Positif Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\" : 2,\r\n    \"add_stock\" : 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/product/stockIn",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"stockIn"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 04 Nov 2024 01:13:39 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "173"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 201,\n    \"success\": true,\n    \"message\": \"Stock updated successfully\",\n    \"total_records\": 1,\n    \"error_detail\": \"\",\n    \"data\": {\n        \"product_id\": 2,\n        \"product_name\": \"bakmie\",\n        \"price\": 999,\n        \"stock\": 23\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Stock In Negative",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\" : 2,\r\n    \"add_stock\" : -1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9999/product/stockIn",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"product",
+						"stockIn"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Stock In Negative, Stock negative greater than current stock",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\" : 2,\r\n    \"add_stock\" : -19\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/product/stockIn",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"stockIn"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 04 Nov 2024 01:05:34 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "163"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 500,\n    \"success\": false,\n    \"message\": \"product stock out of range. stock cannot be negative\",\n    \"error_detail\": \"product stock out of range. stock cannot be negative\"\n}"
+				},
+				{
+					"name": "Stock In Negative Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\" : 2,\r\n    \"add_stock\" : -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/product/stockIn",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"stockIn"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 04 Nov 2024 01:14:02 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "173"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 201,\n    \"success\": true,\n    \"message\": \"Stock updated successfully\",\n    \"total_records\": 1,\n    \"error_detail\": \"\",\n    \"data\": {\n        \"product_id\": 2,\n        \"product_name\": \"bakmie\",\n        \"price\": 999,\n        \"stock\": 22\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Remove Product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/product/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"product",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Example Success",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9999/product/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 03 Nov 2024 16:35:04 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "65"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"success\": true,\n    \"message\": \"success\",\n    \"error_detail\": \"\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Price",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\" : 2,\r\n    \"new_price\" : 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9999/product/price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"product",
+						"price"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Price",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\" : 2,\r\n    \"new_price\" : 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/product/price",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"price"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 04 Nov 2024 01:15:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "173"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 201,\n    \"success\": true,\n    \"message\": \"Price updated successfully\",\n    \"total_records\": 1,\n    \"error_detail\": \"\",\n    \"data\": {\n        \"product_id\": 2,\n        \"product_name\": \"bakmie\",\n        \"price\": 100,\n        \"stock\": 22\n    }\n}"
+				},
+				{
+					"name": "Product id not found",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\" : 22,\r\n    \"new_price\" : 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/product/price",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"product",
+								"price"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 04 Nov 2024 01:22:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "117"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 404,\n    \"success\": false,\n    \"message\": \"failed to update product. record not found\",\n    \"error_detail\": \"record not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Order List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/order/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"order",
+						"list"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Order List",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9999/order/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"order",
+								"list"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 04 Nov 2024 05:41:52 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "334"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"success\": true,\n    \"message\": \"Success\",\n    \"total_records\": 2,\n    \"error_detail\": \"\",\n    \"data\": [\n        {\n            \"order_id\": 1,\n            \"product_id\": 1,\n            \"product_name\": \"pop ice\",\n            \"quantity\": 3,\n            \"total_price\": 450,\n            \"order_date\": \"2024-11-04 12:38:19\"\n        },\n        {\n            \"order_id\": 2,\n            \"product_id\": 1,\n            \"product_name\": \"pop ice\",\n            \"quantity\": 3,\n            \"total_price\": 450,\n            \"order_date\": \"2024-11-04 12:39:39\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
