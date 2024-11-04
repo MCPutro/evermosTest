@@ -6,4 +6,5 @@ type Order struct {
 	ProductName string `json:"product_name"`
 	Quantity    int    `json:"quantity"`
 	TotalPrice  int    `json:"total_price"`
+	OrderDate   string `json:"order_date,omitempty"`
 }

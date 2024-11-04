@@ -14,13 +14,27 @@ type Order struct {
 	UpdateTime   time.Time      `gorm:"column:update_time;autoCreateTime;autoUpdateTime;type:timestamp;default:NOW()"`
 	CreationTime time.Time      `gorm:"column:creation_time;autoCreateTime;<-:create;type:timestamp;default:NOW()"`
 	DeletedTime  gorm.DeletedAt `gorm:"column:delete_time"`
+	Product      Product        `gorm:"foreignKey:product_id;references:id"` // belongs to
 }
 
 func (o *Order) ToResponse() *response.Order {
 	return &response.Order{
-		OrderId:    o.Id,
-		ProductId:  o.ProductId,
-		Quantity:   o.Quantity,
-		TotalPrice: o.TotalPrice,
+		OrderId:     o.Id,
+		ProductId:   o.ProductId,
+		ProductName: o.Product.Name,
+		Quantity:    o.Quantity,
+		TotalPrice:  o.TotalPrice,
+		OrderDate:   o.CreationTime.Format("2006-01-02 15:04:05"),
 	}
+}
+
+type OrderList []*Order
+
+func (ol *OrderList) ToResponse() []*response.Order {
+	var temp []*response.Order
+	for _, o := range *ol {
+		temp = append(temp, o.ToResponse())
+	}
+
+	return temp
 }

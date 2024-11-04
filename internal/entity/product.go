@@ -14,7 +14,7 @@ type Product struct {
 	UpdateTime   time.Time      `gorm:"column:update_time;autoCreateTime;autoUpdateTime;type:timestamp;default:NOW()"`
 	CreationTime time.Time      `gorm:"column:creation_time;autoCreateTime;<-:create;type:timestamp;default:NOW()"`
 	DeletedTime  gorm.DeletedAt `gorm:"column:delete_time"`
-	OrderId      Order          `gorm:"foreignKey:product_id;references:id"`
+	OrderId      []Order        `gorm:"foreignKey:product_id;references:id"`
 }
 
 func (p *Product) ToResponse() *response.Product {

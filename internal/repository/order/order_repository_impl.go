@@ -3,6 +3,7 @@ package order
 import (
 	"context"
 	"evermosTest/internal/entity"
+	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -18,6 +19,21 @@ func (o *orderRepositoryImpl) Save(ctx context.Context, newOrder *entity.Order) 
 	}
 
 	return newOrder, nil
+}
+
+func (o *orderRepositoryImpl) GetAll(ctx context.Context) (entity.OrderList, error) {
+	var list entity.OrderList
+
+	result := o.db.WithContext(ctx).Preload("Product").Find(&list)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	for _, order := range list {
+		fmt.Println(order)
+	}
+	return list, nil
 
 }
 

@@ -1,11 +1,12 @@
 package route
 
 import (
-	"evermosTest/internal/handler/http"
+	"evermosTest/internal/handler/http/order"
+	"evermosTest/internal/handler/http/product"
 	"github.com/gofiber/fiber/v2"
 )
 
-func NewRouter(handler http.Handler) *fiber.App {
+func NewRouter(productHandler product.Handler, orderHandler order.Handler) *fiber.App {
 	router := fiber.New()
 
 	r := router.Group("/")
@@ -14,13 +15,16 @@ func NewRouter(handler http.Handler) *fiber.App {
 	})
 
 	apiProduct := r.Group("/product")
-	apiProduct.Post("/add", handler.CreateNew)
-	apiProduct.Get("/list", handler.GetList)
-	apiProduct.Delete("/:productId", handler.Delete)
-	apiProduct.Post("/stockIn", handler.StockIn)
-	apiProduct.Post("/price", handler.PriceAdjust)
+	apiProduct.Post("/add", productHandler.CreateNew)
+	apiProduct.Get("/list", productHandler.GetList)
+	apiProduct.Delete("/:productId", productHandler.Delete)
+	apiProduct.Post("/stockIn", productHandler.StockIn)
+	apiProduct.Post("/price", productHandler.PriceAdjust)
 
-	router.Post("/checkout", handler.Checkout)
+	router.Post("/checkout", productHandler.Checkout)
+
+	apiOrder := router.Group("/order")
+	apiOrder.Get("/list", orderHandler.GetAll)
 
 	return router
 }
