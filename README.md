@@ -81,12 +81,12 @@ $ git clone https://github.com/MCPutro/evermosTest.git
 tunggu hingga porses selesai, dan akan muncul seperti berikut :
 ```
 Cloning into 'evermosTest'...
-remote: Enumerating objects: 261, done.
-remote: Counting objects: 100% (261/261), done.
-Receiving objects: 100% (261/261), 53.14 KiB | 1.18 MiB/s, done.
-Resolving deltas:  22% (27/122)0% (172/172), done.
-Resolving deltas:  27% (33/122)reused 208 (delta 78), pack-reused 0
-Resolving deltas: 100% (122/122), done.
+remote: Enumerating objects: 209, done.
+remote: Counting objects: 100% (209/209), done.
+remote: Compressing objects: 100% (117/117), done.
+remote: Total 209 (delta 82), reused 200 (delta 73), pack-reused 0 (from 0)
+Receiving objects: 100% (209/209), 36.79 KiB | 171.00 KiB/s, done.
+Resolving deltas: 100% (82/82), done.
 ```
 lalu masuk kedalam folder evermosTest:
 ```shell
@@ -98,7 +98,7 @@ pastikan docker sudah berjalan, di komputer atau laptop yang digunakan. Jika sud
 docker compose up -d
 ```
 
-tunggu hingga project selesai di download dan akan muncul tampilan seperi berikut, coba tunggu beberapa menit :
+tunggu hingga project selesai di download dan akan muncul tampilan seperi berikut :
 ```
 ....
 [+] Running 3/3
@@ -106,6 +106,8 @@ tunggu hingga project selesai di download dan akan muncul tampilan seperi beriku
  ✔ Container mysql-local-docker     Started                  2.0s 
  ✔ Container backend                Started                  3.4s 
 ```
+
+Lalu tunggu beberapa saat(sekitar 30-60 detik) sampai database menyala.
 
 ### 3. Akses proyek
 untuk melakukan testing terhadap Rest API yang tersedia bisa menggunakan Postman dan untuk melihat/membuka database bisa menggunakan DBeaver.
